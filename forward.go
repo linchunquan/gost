@@ -654,6 +654,9 @@ func (l *tcpRemoteForwardListener) listenLoop() {
 			}
 			log.Logf("[rtcp] accept error: %v; retrying in %v", err, tempDelay)
 			time.Sleep(tempDelay)
+
+			AccentEvent <- err
+
 			continue
 		}
 
