@@ -656,8 +656,10 @@ func (l *tcpRemoteForwardListener) listenLoop() {
 			time.Sleep(tempDelay)
 
 			AccentEvent <- err
-
 			continue
+		}else{
+			log.Logf("[rtcp] accept success: %v!", err)
+			AccentEvent <- nil
 		}
 
 		tempDelay = 0
@@ -802,6 +804,8 @@ func (l *tcpRemoteForwardListener) waitConnectSOCKS5(conn net.Conn) (net.Conn, e
 		return nil, fmt.Errorf("Bind on %s failure", l.addr.String())
 	}
 	log.Logf("[rtcp] BIND ON %s OK", rep.Addr)
+
+	AccentEvent<-nil
 
 	// second reply, peer connected
 	rep, err = gosocks5.ReadReply(conn)
